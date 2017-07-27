@@ -9,7 +9,16 @@
         "matches": ["http://filelist.ro/browse.php*"],
         "css": ["style.css"],
         "js": ["js/vendor.js", "js/content_script.js"]
+    }, {
+        "matches": ["http://filelist.ro/details.php*"],
+        "css": ["style.css"],
+        "js": ["js/vendor.js", "js/content_script.js"]
     }],
+    
+    "background": {
+        "css": ["style.css"],
+        "scripts": ["js/vendor.js", "js/background.js"]
+    },
 
     "permissions": ["tabs", "http://filelist.ro/*"],
     "web_accessible_resources": [
