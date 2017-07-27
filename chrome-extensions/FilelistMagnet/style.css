@@ -1,0 +1,11 @@
+.filelist-magnet {
+    width: 30px;
+    height: 47px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.filelist-magnet img.magnet-icon {
+    width: 16px;
+    height: 16px;
+}
