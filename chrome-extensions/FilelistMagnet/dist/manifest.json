@@ -8,7 +8,7 @@
     "content_scripts": [{
         "matches": ["http://filelist.ro/browse.php*"],
         "css": ["style.css"],
-        "js": ["jquery-3.2.1.min.js", "contentScript.js"]
+        "js": ["js/vendor.js", "js/content_script.js"]
     }],
 
     "permissions": ["tabs", "http://filelist.ro/*"],

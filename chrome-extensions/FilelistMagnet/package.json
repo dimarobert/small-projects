@@ -1,0 +1,21 @@
+{
+    "name": "filelist-magnet",
+    "version": "0.0.1",
+    "main": "index.js",
+    "scripts": {
+        "build": "./node_modules/.bin/webpack",
+        "watch": "./node_modules/.bin/webpack -w"
+    },
+    "dependencies": {
+        "parse-torrent": "5.8.3",
+        "jquery": "3.2.1"
+    },
+    "devDependencies": {
+        "@types/chrome": "0.0.47",
+        "@types/jquery": "3.2.9",
+        "@types/parse-torrent": "5.8.1",
+        "ts-loader": "2.3.2",
+        "typescript": "2.4.2",
+        "webpack": "3.4.1"
+    }
+}
