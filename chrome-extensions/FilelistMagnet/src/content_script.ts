@@ -7,7 +7,16 @@ var torrentRows = $('#maincolumn > div > div.cblock-content > div > div.visitedl
 
 $.each(torrentRows, function (idx, row) {
     var $downloadCol = $('div:nth-child(3) > span', row);
-    var $generateMagnetAnchor = $('<a href="#"><img class="magnet-icon" src="' + chrome.extension.getURL("magnet.png") + '" data-toggle="tooltip" data-placement="top" title="" data-original-title="Download Magnet"></a>');
+    var $generateMagnetAnchor = $(`
+        <a href="#">
+            <img class="magnet-icon" 
+                 src="${chrome.extension.getURL("magnet.png")}" 
+                 data-toggle="tooltip" 
+                 data-placement="top" title="" 
+                 data-original-title="Download Magnet"
+            />
+        </a>`
+    );
     var $generateMagnet = $('<span class="filelist-magnet"></span>');
     $generateMagnet.append($generateMagnetAnchor);
     $downloadCol.replaceWith($generateMagnet);
