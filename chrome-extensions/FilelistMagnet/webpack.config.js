@@ -15,6 +15,10 @@ module.exports = {
     },
     module: {
         rules: [{
+            test: /\.tsx?$/,
+            exclude: /node_modules/,
+            use: 'ts-loader'
+        }, {
             test: require.resolve('jquery'),
             use: [{
                 loader: 'expose-loader',
@@ -23,11 +27,6 @@ module.exports = {
                 loader: 'expose-loader',
                 options: '$'
             }]
-        }],
-        loaders: [{
-            exclude: /node_modules/,
-            test: /\.tsx?$/,
-            loader: 'ts-loader'
         }]
     },
     resolve: {

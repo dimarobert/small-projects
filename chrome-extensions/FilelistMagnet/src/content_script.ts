@@ -4,11 +4,40 @@ import * as $ from 'jquery';
 import 'jquery-binarytransport';
 import * as ParseTorrent from 'parse-torrent';
 
-var torrentRows = $('#maincolumn > div > div.cblock-content > div > div.visitedlinks > div.torrentrow');
+let torrentRows = $('#maincolumn > div > div.cblock-content > div > div.visitedlinks > div.torrentrow');
 
-$.each(torrentRows, function (idx, row) {
-    var $downloadCol = $('div:nth-child(3) > span', row);
-    var $generateMagnetAnchor = $(`
+let generateMagnet = (event: JQuery.Event) => {
+    event.preventDefault();
+    let $magnetCol = $(event.currentTarget);
+    let $downloadCol = $magnetCol.parent().parent().next();
+    let torrentURI = $('span > a', $downloadCol).attr('href');
+
+    $.ajax({
+        type: 'GET',
+        url: torrentURI,
+        processData: false,
+        dataType: 'binary',
+        success: (data) => {
+            let fileReader = new FileReader();
+            fileReader.onload = () => {
+                let torrent = ParseTorrent(new Buffer(fileReader.result));
+                var magnerUri = ParseTorrent.toMagnetURI(torrent);
+
+                // optimization: this prevents magnet generation for the second time
+                // instead it 'caches' the uri and directly delivers it. 
+                $magnetCol.unbind("click", generateMagnet);
+                $magnetCol.click(() => { window.location.href = magnerUri; });
+                window.location.href = magnerUri;
+            };
+            fileReader.readAsArrayBuffer(data);
+        }
+    });
+
+}
+
+$.each(torrentRows, (idx, row) => {
+    let $downloadCol = $('div:nth-child(3) > span', row);
+    let $generateMagnetAnchor = $(`
         <a href="#">
             <img class="magnet-icon" 
                  src="${chrome.extension.getURL("magnet.png")}" 
@@ -17,31 +46,11 @@ $.each(torrentRows, function (idx, row) {
                  data-original-title="Download Magnet"
             />
         </a>`
-    ); 
-    var $generateMagnet = $('<span class="filelist-magnet"></span>');
+    );
+    let $generateMagnet = $('<span class="filelist-magnet"></span>');
     $generateMagnet.append($generateMagnetAnchor);
     $downloadCol.replaceWith($generateMagnet);
 
     $generateMagnetAnchor.click(generateMagnet);
 });
 
-function generateMagnet() {
-    var $downloadCol = $(this).parent().parent().next();
-    var torrentURI = $('span > a', $downloadCol).attr('href');
-
-    $.ajax({
-        type: 'GET',
-        url: torrentURI,
-        processData: false,
-        dataType: 'binary',
-        success: function (data) {
-            debugger;
-            var torrent = ParseTorrent(new Buffer(data));
-            window.location.href = ParseTorrent.toMagnetURI(torrent);
-        }
-    });
-
-    // $.get(torrentURI, function (data) {
-
-    // });
-}
