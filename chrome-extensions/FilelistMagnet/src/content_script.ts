@@ -1,6 +1,7 @@
 /// <reference types="parse-torrent" />
 
 import * as $ from 'jquery';
+import 'jquery-binarytransport';
 import * as ParseTorrent from 'parse-torrent';
 
 var torrentRows = $('#maincolumn > div > div.cblock-content > div > div.visitedlinks > div.torrentrow');
@@ -16,7 +17,7 @@ $.each(torrentRows, function (idx, row) {
                  data-original-title="Download Magnet"
             />
         </a>`
-    );
+    ); 
     var $generateMagnet = $('<span class="filelist-magnet"></span>');
     $generateMagnet.append($generateMagnetAnchor);
     $downloadCol.replaceWith($generateMagnet);
@@ -28,9 +29,19 @@ function generateMagnet() {
     var $downloadCol = $(this).parent().parent().next();
     var torrentURI = $('span > a', $downloadCol).attr('href');
 
-    $.get(torrentURI, function (data) {
-        debugger;
-        var torrent = ParseTorrent(new Buffer(data));
-        window.location.href = ParseTorrent.toMagnetURI(torrent);
+    $.ajax({
+        type: 'GET',
+        url: torrentURI,
+        processData: false,
+        dataType: 'binary',
+        success: function (data) {
+            debugger;
+            var torrent = ParseTorrent(new Buffer(data));
+            window.location.href = ParseTorrent.toMagnetURI(torrent);
+        }
     });
+
+    // $.get(torrentURI, function (data) {
+
+    // });
 }
