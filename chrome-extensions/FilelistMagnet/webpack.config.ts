@@ -11,7 +11,7 @@ const config: webpack.Configuration = {
     },
     entry: {
         content_script: path.join(__dirname, 'src/content_script.ts'),
-        vendor: ['jquery', 'jquery-binarytransport', 'parse-torrent']
+        vendor: ['jquery', 'jquery-binarytransport', 'bootstrap', 'parse-torrent']
     },
     output: {
         path: path.join(__dirname, 'dist/js'),
