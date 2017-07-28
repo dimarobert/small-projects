@@ -17,7 +17,7 @@
     
     "background": {
         "css": ["style.css"],
-        "scripts": ["js/vendor.js", "js/background.js"]
+        "scripts": ["js/vendor.js"]
     },
 
     "permissions": ["tabs", "http://filelist.ro/*"],

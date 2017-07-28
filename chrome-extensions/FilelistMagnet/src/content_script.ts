@@ -10,16 +10,6 @@ interface MagnetHandlerData {
 
 let torrentRows = $('#maincolumn > div > div.cblock-content > div > div.visitedlinks > div.torrentrow');
 
-let getCurrentTabInfo = (): Promise<chrome.tabs.Tab> => {
-    return new Promise<chrome.tabs.Tab>((resolve, reject) => {
-        chrome.runtime.sendMessage(
-            {},
-            (r: chrome.tabs.Tab) =>
-                resolve(r)
-        );
-    })
-};
-
 let getTorrentURI = (isDetails: boolean, magnetEl: JQuery<HTMLElement>): string => {
     if (isDetails)
         return magnetEl.next().attr('href');
@@ -101,11 +91,8 @@ let generateDetailsLink = () => {
     $downloadLink.before($generateMagnetAnchor);
     $generateMagnetAnchor.click({ isDetails: true }, generateMagnet);
 };
-
-getCurrentTabInfo().then(tabInfo => {
-    if (tabInfo.url.match(/browse.php/))
+    if (window.location.pathname === '/browse.php')
         generateBrowseLinks();
     else
         generateDetailsLink();
-});
 
