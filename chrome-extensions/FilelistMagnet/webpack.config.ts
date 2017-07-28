@@ -3,6 +3,7 @@
 import * as webpack from 'webpack';
 import * as path from 'path';
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import * as Visualizer from 'webpack-visualizer-plugin';
 declare var __dirname;
 
 const config: webpack.Configuration = {
@@ -42,6 +43,9 @@ const config: webpack.Configuration = {
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: Infinity
+        }),
+        new Visualizer({
+            filename: '../../stats.html'
         })
 
     ]
