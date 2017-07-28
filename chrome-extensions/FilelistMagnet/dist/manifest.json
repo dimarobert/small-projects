@@ -15,11 +15,6 @@
         "js": ["js/vendor.js", "js/content_script.js"]
     }],
     
-    "background": {
-        "css": ["style.css"],
-        "scripts": ["js/vendor.js", "js/background.js"]
-    },
-
     "permissions": ["tabs", "http://filelist.ro/*"],
     "web_accessible_resources": [
         "magnet.png"

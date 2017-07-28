@@ -1,13 +1,16 @@
-const webpack = require("webpack");
-const path = require('path');
+/// <reference types="webpack" />
 
-module.exports = {
+import * as webpack from 'webpack';
+import * as path from 'path';
+import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+declare var __dirname;
+
+const config: webpack.Configuration = {
     node: {
         fs: 'empty'
     },
     entry: {
         content_script: path.join(__dirname, 'src/content_script.ts'),
-        background: path.join(__dirname, 'src/background.ts'),
         vendor: ['jquery', 'jquery-binarytransport', 'parse-torrent']
     },
     output: {
@@ -39,9 +42,21 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: Infinity
-        }),
+        })
 
-        // minify
-        // new webpack.optimize.UglifyJsPlugin()
     ]
 };
+
+module.exports = function (env) {
+    env = env || {};
+
+    if (env.release) {
+        config.plugins.push(new UglifyJsPlugin({
+            uglifyOptions: {
+                compress: true,
+                mangle: true
+            }
+        }));
+    }
+    return config;
+}

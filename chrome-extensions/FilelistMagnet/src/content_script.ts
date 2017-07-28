@@ -10,16 +10,6 @@ interface MagnetHandlerData {
 
 let torrentRows = $('#maincolumn > div > div.cblock-content > div > div.visitedlinks > div.torrentrow');
 
-let getCurrentTabInfo = (): Promise<chrome.tabs.Tab> => {
-    return new Promise<chrome.tabs.Tab>((resolve, reject) => {
-        chrome.runtime.sendMessage(
-            {},
-            (r: chrome.tabs.Tab) =>
-                resolve(r)
-        );
-    })
-};
-
 let getTorrentURI = (isDetails: boolean, magnetEl: JQuery<HTMLElement>): string => {
     if (isDetails)
         return magnetEl.next().attr('href');
@@ -87,6 +77,14 @@ let generateBrowseLinks = () => {
 
 let generateDetailsLink = () => {
     let $downloadLink = $('#maincolumn > div:nth-child(1) > div.cblock-content > div > span:nth-child(1) > a.index');
+    if (!$downloadLink.length)
+        $downloadLink = $('#maincolumn > div:nth-child(1) > div.cblock-content > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > a');
+
+    if (!$downloadLink.length) {
+        console.error("Failed to retrieve download link in details.php");
+        return;
+    }
+
     let $generateMagnetAnchor = $(`
         <a class="filelist-magnet-details" href="#">
             <img class="magnet-icon" 
@@ -102,10 +100,8 @@ let generateDetailsLink = () => {
     $generateMagnetAnchor.click({ isDetails: true }, generateMagnet);
 };
 
-getCurrentTabInfo().then(tabInfo => {
-    if (tabInfo.url.match(/browse.php/))
-        generateBrowseLinks();
-    else
-        generateDetailsLink();
-});
 
+if (window.location.pathname.match(/browse.php/))
+    generateBrowseLinks();
+else
+    generateDetailsLink();
