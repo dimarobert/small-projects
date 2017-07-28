@@ -4,12 +4,13 @@ import * as ParseTorrent from 'parse-torrent';
 export class MagnetUri {
     constructor(private url: string, private anchor: JQuery<HTMLElement>) {
         anchor.find('[data-toggle="tooltip"]').tooltip();
-        anchor.click(evt => this.clickHandler(evt));
+        anchor.click(evt => {
+            evt.preventDefault();
+            this.clickHandler(evt);
+        });
     }
 
     private clickHandler = (event: JQuery.Event) => {
-        event.preventDefault();
-
         new Promise<Blob>((resolve, reject) => {
             $.ajax({
                 type: 'GET',
