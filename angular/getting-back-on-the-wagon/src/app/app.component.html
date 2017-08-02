@@ -1,0 +1,19 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{title}}!
+  </h1>
+</div>
+
+<div class="heroes">
+  <h2>Heroes so far</h2>
+  <div class="heroItem" [class.selected]="hero == selectedHero" *ngFor="let hero of heroList" (click)="handleClick(hero)">
+    <div>{{hero.id}}. {{hero.name}}</div>
+  </div>
+</div>
+
+<div *ngIf="selectedHero">
+  <h2>Edit selected hero</h2>
+  <div><label for="">id: </label>{{selectedHero.id}}</div>
+  <div><label for="shEditName">name: </label><input id="shEditName" [(ngModel)]="selectedHero.name"></div>
+</div>

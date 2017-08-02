@@ -1,0 +1,16 @@
+.heroes {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.heroItem.selected {
+    background-color: red;
+}
+
+.heroItem:hover {
+    background-color: gray;
+}
+
+.heroItem.selected:hover {
+    background-color: darkred;
+}
